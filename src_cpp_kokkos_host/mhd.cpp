@@ -1432,8 +1432,8 @@ void UpdateConservU(const GridArray<double>& G,const FieldArray<double>& Fx,cons
 	Kokkos::MDRangePolicy<Kokkos::Rank<3>>({is, js, ks}, {ie+1, je+1, ke+1}),
 	KOKKOS_LAMBDA(const int i, const int j, const int k) {
 		const double xinv = 1.0 / (G.x1a(i+1)-G.x1a(i));
-		const double yinv = 1.0 / (G.x2a(i+1)-G.x2a(i));
-		const double zinv = 1.0 / (G.x3a(i+1)-G.x3a(i));
+		const double yinv = 1.0 / (G.x2a(j+1)-G.x2a(j));
+		const double zinv = 1.0 / (G.x3a(k+1)-G.x3a(k));
 		for (int m=0; m<mconsv; m++) {
 			U.href(m,k,j,i) -= dt * ( (Fx(m,k,j,i+1) - Fx(m,k,j,i)) * xinv
 			                         +(Fy(m,k,j+1,i) - Fy(m,k,j,i)) * yinv

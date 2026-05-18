@@ -53,11 +53,32 @@ void InitializeMPI() {
   
   // Split communicator into groups of size ntiles[0]*ntiles[1]*ntiles[2]
   int np_hyd = ntiles[0] * ntiles[1] * ntiles[2];
+  if (np_hyd <= 0) {
+    if (myid_w == 0) {
+      std::fprintf(stderr, "Invalid Cartesian decomposition: %d x %d x %d\n",
+                   ntiles[0], ntiles[1], ntiles[2]);
+    }
+    MPI_Abort(MPI_COMM_WORLD, 1);
+  }
+  if ((nprocs_w % np_hyd) != 0) {
+    if (myid_w == 0) {
+      std::fprintf(stderr,
+                   "MPI size mismatch: world=%d but tiles=%d x %d x %d require multiples of %d\n",
+                   nprocs_w, ntiles[0], ntiles[1], ntiles[2], np_hyd);
+    }
+    MPI_Abort(MPI_COMM_WORLD, 2);
+  }
   int color  = (np_hyd > 0) ? (myid_w / np_hyd) : 0;
   int key    = myid_w;
   MPI_Comm_split(MPI_COMM_WORLD, color, key, &mpi_comm_hyd);
   MPI_Comm_size(mpi_comm_hyd, &nprocs_hyd);
   MPI_Comm_rank(mpi_comm_hyd, &myid_hyd);
+  if (nprocs_hyd != np_hyd) {
+    std::fprintf(stderr,
+                 "Rank %d: split communicator size=%d, expected=%d from tiles=%d x %d x %d\n",
+                 myid_w, nprocs_hyd, np_hyd, ntiles[0], ntiles[1], ntiles[2]);
+    MPI_Abort(MPI_COMM_WORLD, 3);
+  }
     
   // Create 3D Cartesian topology
   MPI_Cart_create(mpi_comm_hyd, ndim, ntiles, periodic, reorder, &comm3d);
@@ -78,6 +99,9 @@ void InitializeMPI() {
   if (gpuid >= 0) omp_set_default_device(gpuid);
 
   printf("init myid_w,gpuid=(%i,%i)\n",myid_w,gpuid);  
+  if (myid_w == 0 && np_hyd == 1) {
+    std::printf("single-rank MPI mode enabled\n");
+  }
     // If device-side use of myid_w is needed later, this updates it once.
 // #pragma acc update device(myid_w)
 }
