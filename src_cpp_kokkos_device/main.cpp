@@ -178,7 +178,7 @@ static void GenerateProblem(hydflux_mod::GridArray<double>& G,hydflux_mod::Field
   (void)rho1; (void)rho2; (void)B0; // currently symmetric / B0 unused in reference file
 
   // Random perturbation strength (Fortran rrv)
-  const double rrv = 1.0e-2;
+  const double rrv = 0.0e-2;
 
   // Isothermal: choose csiso so that p = rho*csiso^2 matches Fortran p=1 when rho=1
   //csiso = 1.0;
@@ -200,7 +200,7 @@ static void GenerateProblem(hydflux_mod::GridArray<double>& G,hydflux_mod::Field
         P(npre,k,j,i) = 1.0;
 
         P(nve1,k,j,i) = 0.5 * dv * (tanh_p - tanh_m - 1.0);
-        P(nve2,k,j,i) = 1.0e-3 * std::sin(2.0*pi*x) *
+        P(nve2,k,j,i) = 1.0e-2 * std::sin(2.0*pi*x) *
                         ( std::exp(- (y + 0.5)*(y + 0.5)/(sig*sig))
                         + std::exp(- (y - 0.5)*(y - 0.5)/(sig*sig)) );
         P(nve3,k,j,i) = 0.0;

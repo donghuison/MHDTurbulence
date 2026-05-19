@@ -24,7 +24,7 @@ namespace hydflux_mod {
   FieldArray<double> Fx,Fy,Fz;
   FieldArray<double> P; //! P(nprim,ktot,jtot,itot)
   double chg;
-  double gam = 1.4;// adiabatic
+  double gam = 5.0e0/3.0e0;// adiabatic
   //  double csiso; // isothermal
    
 // #pragma omp end declare target
