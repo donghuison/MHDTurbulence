@@ -8,7 +8,6 @@
 #include <cstdio>
 #include <cstring>
 #include <cerrno>
-#include <cstdlib>
 
 #include <algorithm>
 #include <chrono>
@@ -23,42 +22,6 @@
 #include "boundary.hpp"
 #include "output.hpp"
 #include "main.hpp"
-
-static void ValidateState(const char* label,
-                          hydflux_mod::FieldArray<double>& U,
-                          hydflux_mod::FieldArray<double>& P,
-                          int step) {
-  using namespace resolution_mod;
-  using namespace hydflux_mod;
-  using namespace mpi_config_mod;
-
-  U.d2h();
-  P.d2h();
-
-  for (int k = ks; k <= ke; ++k) {
-    for (int j = js; j <= je; ++j) {
-      for (int i = is; i <= ie; ++i) {
-        const double rho = P(nden,k,j,i);
-        const double pre = P(npre,k,j,i);
-        const double csp = P(ncsp,k,j,i);
-        const double ene = P(nene,k,j,i);
-        const double uto = U(meto,k,j,i);
-        if (!std::isfinite(rho) || !std::isfinite(pre) || !std::isfinite(csp) ||
-            !std::isfinite(ene) || !std::isfinite(uto) ||
-            rho <= 0.0 || pre < 0.0 || csp < 0.0) {
-          std::fprintf(stderr,
-                       "[rank %d] %s: invalid state at step=%d cell=(i=%d,j=%d,k=%d) "
-                       "rho=%e pre=%e cs=%e ene=%e uto=%e v=(%e,%e,%e) B=(%e,%e,%e)\n",
-                       myid_w, label, step, i, j, k,
-                       rho, pre, csp, ene, uto,
-                       P(nve1,k,j,i), P(nve2,k,j,i), P(nve3,k,j,i),
-                       P(nbm1,k,j,i), P(nbm2,k,j,i), P(nbm3,k,j,i));
-          MPI_Abort(MPI_COMM_WORLD, 101);
-        }
-      }
-    }
-  }
-}
 
 static void RealTimeAnalysis(const GridArray<double>& G, const FieldArray<double>& P) {
   using namespace resolution_mod;
@@ -316,11 +279,6 @@ int main(int argc, char **argv) {
   G.h2d();
   P.h2d();
   U.h2d();
-  if constexpr (config::debug_checks) {
-    ValidateState("after initialization", U, P, -1);
-    P.h2d();
-    U.h2d();
-  }
   RealTimeAnalysis(G, P); // currently on the host
   // Force output at the initial state (Fortran: call Output(forceoutput))
   Output(forceoutput);
@@ -384,12 +342,6 @@ int main(int argc, char **argv) {
 
     UpdatePrimitvP(U,P);
     double t9 = wtime();
-
-    if constexpr (config::debug_checks) {
-      ValidateState("after UpdatePrimitvP", U, P, step);
-      P.h2d();
-      U.h2d();
-    }
 
     time_sim += dt;
 

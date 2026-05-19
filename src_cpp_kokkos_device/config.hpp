@@ -39,7 +39,6 @@ namespace config {
   
   inline constexpr bool asciiout = true ;// Ascii-files are additionaly damped.
   inline constexpr bool benchmarkmode = true ;// If true, only initial and final outputs are damped. 
-  inline constexpr bool debug_checks = true; // expensive host-side validation for NaN/debugging
 };
 
 namespace resolution_mod {
