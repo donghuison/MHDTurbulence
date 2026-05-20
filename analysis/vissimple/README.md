@@ -1,4 +1,4 @@
-### 1. Quick check: Text output (ASCII)
+### Quick check: Text output (ASCII)
 
 For quick inspection and debugging, ASCII output can be enabled in
 `config.f90`:
@@ -69,8 +69,7 @@ If you want to use the script for your own run, copy `plotasc.plt` into the
 directory containing `snap###-?????.csv` and adjust the rank range and
 snapshot numbers as needed.
 
-<img width="320" height="240" alt="2D initial" src="./2Dsample/initial.png" />
-<img width="320" height="240" alt="2D final" src="./2Dsample/final.png" />
+<img width="320" height="240" alt="initial" src="https://github.com/user-attachments/assets/90d21b9e-e3f7-4606-b425-8d4d8715aab3" />
+<img width="320" height="240" alt="final" src="https://github.com/user-attachments/assets/04091023-8ab7-4ce6-a261-237f9bdf4f61" />
+<img width="320" height="240" alt="final" src="https://github.com/user-attachments/assets/01ecbb59-c21b-4e38-8e6a-78d9e7433791" />
 
-<img width="320" height="240" alt="3D initial" src="./3Dsample/initial.png" />
-<img width="320" height="240" alt="3D final" src="./3Dsample/final.png" />
