@@ -1,4 +1,3 @@
-<img width="640" height="480" alt="t-vyave" src="https://github.com/user-attachments/assets/ee466755-f046-47bb-bcf6-e498a5e65964" />
 # MHDTurbulence
 
 This repository contains a 3D MHD solver (MPI + OpenACC/OpenMP target/OpenMP).
