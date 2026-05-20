@@ -151,3 +151,8 @@ with the hard-coded parameters
 - $\Gamma = 1.49$
 
 These values are used as a practical comparison metric for KH growth in this setup. The source comment notes that this is not a general analytic growth rate for finite-width shear layers, but an empirical reference value for this problem.
+
+<img width="640" height="480" alt="t-vyave" src="https://github.com/user-attachments/assets/c2039eb0-8405-4490-a565-9541d82e5cf2" />
+
+
+
