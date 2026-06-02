@@ -1,0 +1,653 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="User-facing documentation for MHDTurbulence">
+      
+      
+      
+        <link rel="canonical" href="https://cfcanaoj.github.io/MHDTurbulence/guide/KH.html">
+      
+      
+        <link rel="prev" href="index.html">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Kelvin-Helmholtz Setup - MHDTurbulence Guides</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#problem-setup-kelvin-helmholtz-instability" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="MHDTurbulence Guides" class="md-header__button md-logo" aria-label="MHDTurbulence Guides" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MHDTurbulence Guides
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Kelvin-Helmholtz Setup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="MHDTurbulence Guides" class="md-nav__button md-logo" aria-label="MHDTurbulence Guides" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    MHDTurbulence Guides
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kelvin-Helmholtz Setup
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="KH.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kelvin-Helmholtz Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem-setup-kelvin-helmholtz-instability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem setup: Kelvin-Helmholtz instability
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problem setup: Kelvin-Helmholtz instability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydrodynamic-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hydrodynamic variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#magnetic-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Magnetic field
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tracer-composition-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tracer / composition field
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boundary-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Boundary conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-time-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-time analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#problem-setup-kelvin-helmholtz-instability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Problem setup: Kelvin-Helmholtz instability
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Problem setup: Kelvin-Helmholtz instability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hydrodynamic-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hydrodynamic variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#magnetic-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Magnetic field
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tracer-composition-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tracer / composition field
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boundary-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Boundary conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#real-time-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-time analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+  <h1>Kelvin-Helmholtz Setup</h1>
+
+<h2 id="problem-setup-kelvin-helmholtz-instability">Problem setup: Kelvin-Helmholtz instability</h2>
+<p>The initial condition is defined in <code>GenerateProblem</code> in <code>main.f90</code>.</p>
+<h3 id="hydrodynamic-variables">Hydrodynamic variables</h3>
+<p>Uniform density and pressure are set as</p>
+<div class="arithmatex">\[
+\rho = 1,
+\qquad
+p = 1.
+\]</div>
+<p>A shear flow is imposed in the <span class="arithmatex">\(x\)</span>-direction with two shear layers centered at <span class="arithmatex">\(y=\pm 0.5\)</span>.
+The main parameters are:</p>
+<ul>
+<li><span class="arithmatex">\(\Delta v = 2.0\)</span></li>
+<li>shear-layer width <span class="arithmatex">\(w = 0.05\)</span></li>
+</ul>
+<p>The initial <span class="arithmatex">\(x\)</span>-velocity is</p>
+<div class="arithmatex">\[
+v_x(y)=\frac{\Delta v}{2}\left[
+\tanh\left(\frac{y+0.5}{w}\right)
+-\tanh\left(\frac{y-0.5}{w}\right)
+-1
+\right].
+\]</div>
+<p>A small perturbation is added in the <span class="arithmatex">\(y\)</span>-direction to seed KH roll-up.
+It is sinusoidal in <span class="arithmatex">\(x\)</span> and localized around the two shear layers.
+The parameters are:</p>
+<ul>
+<li>amplitude <span class="arithmatex">\(10^{-2}\)</span></li>
+<li>localization width <span class="arithmatex">\(\sigma = 0.2\)</span></li>
+</ul>
+<p>The perturbation is</p>
+<div class="arithmatex">\[
+v_y(x,y)=10^{-2}\sin(2\pi x)\left[
+e^{-(y+0.5)^2/\sigma^2}
++
+e^{-(y-0.5)^2/\sigma^2}
+\right].
+\]</div>
+<p>The <span class="arithmatex">\(z\)</span>-velocity is initially</p>
+<div class="arithmatex">\[
+v_z = 0.
+\]</div>
+<p>Additionally, the code contains a random perturbation term for <span class="arithmatex">\(v_x\)</span>, but in the current setup it is disabled:</p>
+<ul>
+<li><span class="arithmatex">\(\mathrm{rrv}=0.0\times 10^{-2}\)</span></li>
+</ul>
+<p>If enabled, the perturbation is</p>
+<div class="arithmatex">\[
+v_x \leftarrow v_x + \Delta v\,\mathrm{rrv}\,(r-0.5),
+\qquad r\in[0,1).
+\]</div>
+<h3 id="magnetic-field">Magnetic field</h3>
+<p>In the current KH setup, the magnetic field is initialized to zero:</p>
+<div class="arithmatex">\[
+\mathbf{B} = (0,0,0).
+\]</div>
+<h3 id="tracer-composition-field">Tracer / composition field</h3>
+<p><code>Xcomp(1,...)</code> is initialized as a smooth step-like tracer associated with the two layers, useful for visualizing mixing:</p>
+<div class="arithmatex">\[
+X_{\mathrm{comp}} = \frac{1}{2}\left[\tanh\left(\frac{y+0.5}{w}\right)- \tanh\left(\frac{y-0.5}{w}\right)\right].
+\]</div>
+<h3 id="boundary-conditions">Boundary conditions</h3>
+<p>Boundary conditions are applied in <code>config.f90</code>. In the default setup, reflection boundary conditions are used in the <span class="arithmatex">\(y\)</span>-direction and periodic boundary conditions are used in the other directions.</p>
+<pre><code class="language-Fortran">  integer,parameter:: periodicb=1,reflection=2,outflow=3
+  integer,parameter:: boundary_xin=periodicb , boundary_xout=periodicb
+  integer,parameter:: boundary_yin=reflection, boundary_yout=reflection
+  integer,parameter:: boundary_zin=periodicb , boundary_zout=periodicb
+</code></pre>
+<h3 id="real-time-analysis">Real-time analysis</h3>
+<p><code>RealTimeAnalysis</code> in <code>src_f90_acc_device/main.f90</code> evaluates bulk diagnostics during the run and writes them to <code>t-prof.csv</code>.</p>
+<p>For each cell, the cell volume is computed as</p>
+<div class="arithmatex">\[
+\Delta V_{ijk} =
+\left(x1a_{i+1}-x1a_i\right)
+\left(x2a_{j+1}-x2a_j\right)
+\left(x3a_{k+1}-x3a_k\right).
+\]</div>
+<p>The routine then performs MPI reductions for</p>
+<div class="arithmatex">\[
+V = \sum_{ijk}\Delta V_{ijk},
+\]</div>
+<div class="arithmatex">\[
+M = \sum_{ijk} X_{\mathrm{comp},ijk}\left(1-X_{\mathrm{comp},ijk}\right)\Delta V_{ijk},
+\]</div>
+<div class="arithmatex">\[
+S_{v_y} = \sum_{ijk} v_{y,ijk}^2\,\Delta V_{ijk}.
+\]</div>
+<p>The reported diagnostics are</p>
+<div class="arithmatex">\[
+\mathrm{mix} = \frac{M}{V},
+\]</div>
+<p>and</p>
+<div class="arithmatex">\[
+\left&lt; v_y^2 \right&gt;^{1/2} = \sqrt{\frac{S_{v_y}}{V}}.
+\]</div>
+<p>Here, <code>mix</code> is a simple mixing indicator based on the tracer field. It is close to zero in unmixed regions where <span class="arithmatex">\(X_{\mathrm{comp}}\)</span> is near 0 or 1, and becomes larger as the two layers mix.</p>
+<p>The file <code>t-prof.csv</code> contains four columns:</p>
+<ol>
+<li><code>time</code></li>
+<li><code>mix</code></li>
+<li><code>sqrt(&lt;v_y^2&gt;)</code></li>
+<li><code>A*exp(Gamma*time)</code></li>
+</ol>
+<p>The fourth column is a reference exponential growth curve:</p>
+<p>The growth rate is <span class="arithmatex">\(\Gamma\)</span>.</p>
+<div class="arithmatex">\[
+A\exp(\Gamma t)
+\]</div>
+<p>with the hard-coded parameters</p>
+<ul>
+<li><span class="arithmatex">\(A = 1.2\times 10^{-3}\)</span></li>
+<li><span class="arithmatex">\(\Gamma = 1.49\)</span></li>
+</ul>
+<p>These values are used as a practical comparison metric for KH growth in this setup. The source comment notes that this is not a general analytic growth rate for finite-width shear layers, but an empirical reference value for this problem.</p>
+<p><img width="640" height="480" alt="t-vyave" src="https://github.com/user-attachments/assets/c2039eb0-8405-4490-a565-9541d82e5cf2" /></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": [], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
